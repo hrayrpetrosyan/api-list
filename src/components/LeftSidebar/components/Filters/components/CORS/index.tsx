@@ -22,7 +22,7 @@ function CorsFilter() {
 			<label htmlFor="cors">CORS :</label>
 			{options.map((opt) => (
 				<div key={opt}>
-					<input type="radio" onChange={handleChange} name="cors" value={opt} />
+					<input type="radio" onChange={handleChange} name="cors" value={opt} checked={corsFilter === opt} />
 					<label htmlFor={opt}>{opt}</label><br></br>
 				</div>
 			))

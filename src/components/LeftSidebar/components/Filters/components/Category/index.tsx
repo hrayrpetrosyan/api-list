@@ -1,9 +1,9 @@
 import {useMemo} from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue, useRecoilState } from 'recoil';
 import { categoryFilterAtom, apisAtom } from '../../../../../../recoil/api';
 
 function Category() {
-	const setCategoryFilter = useSetRecoilState(categoryFilterAtom);
+	const [categoryFilter, setCategoryFilter] = useRecoilState(categoryFilterAtom);
 	const apis = useRecoilValue(apisAtom);
 
 	const options = useMemo(() => {
@@ -20,7 +20,7 @@ function Category() {
 	return (
 		<div>
 			<label htmlFor="category">Category :</label>
-			<select onChange={handleChange} name="category">
+			<select onChange={handleChange} name="category" value={categoryFilter}>
 				<option value="">Choose Category</option>
 				{options.map((opt) => (
 					<option key={opt} value={opt}>{opt}</option>
