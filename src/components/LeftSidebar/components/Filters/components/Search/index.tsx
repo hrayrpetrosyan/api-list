@@ -1,16 +1,22 @@
-import {useRef, useEffect} from 'react';
-import { useSetRecoilState } from 'recoil';
+import {useRef, useEffect, useState} from 'react';
+import { useRecoilState } from 'recoil';
 import { searchApiAtom } from '../../../../../../recoil/api';
 
 function Search() {
-	const setSearch = useSetRecoilState(searchApiAtom);
+	const [search, setSearch] = useRecoilState<string>(searchApiAtom);
+	const [searchType, setSearchType] = useState<string>('');
 	const debounceRef = useRef<number>();
+
+	useEffect(() => {
+		if (!search) setSearchType(search);
+	}, [search]);
 
 	useEffect(() => () => {
 		if (debounceRef.current) clearTimeout(debounceRef.current);
 	}, []);
 
 	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setSearchType(e.target.value);
 		if (debounceRef.current) clearTimeout(debounceRef.current);
 		debounceRef.current = window.setTimeout(() => {
 			setSearch(e.target.value);
@@ -20,7 +26,7 @@ function Search() {
 	return (
 		<div>
 			<label htmlFor="search">Search: </label>
-			<input type="text" name="search" onChange={handleChange} />
+			<input type="text" name="search" onChange={handleChange} value={searchType} />
 		</div>
 	);
 }
